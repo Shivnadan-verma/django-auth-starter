@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<div class="card">
-  <h1>Welcome</h1>
-  <p>You are signed in as <strong>{{ request.user.get_username }}</strong>.</p>
-  <p class="muted">Login and logout notifications are sent to the email on your user account (if set).</p>
-  <form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Log out</button>
-  </form>
-</div>
+<h1>Home</h1>
+<p>Signed in as {{ request.user.get_username }}.</p>
+<form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <button type="submit">Log out</button>
+</form>
 {% endblock %}

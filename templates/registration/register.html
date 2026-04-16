@@ -1,30 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Register{% endblock %}
 {% block content %}
-<div class="card">
-  <h1>Create account</h1>
-  <p class="muted">Register first, then you can log in anytime with the same username and password.</p>
-  {% if form.errors %}
-    <p class="muted">Please correct the errors below.</p>
-  {% endif %}
-  <form method="post" action="{% url 'register' %}">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <label for="id_username">Username</label>
-    {{ form.username.errors }}
-    {{ form.username }}
-    <label for="id_email">Email</label>
-    {{ form.email.errors }}
-    {{ form.email }}
-    <p class="muted">Used for login and logout notifications.</p>
-    <label for="id_password1">Password</label>
-    {{ form.password1.errors }}
-    {{ form.password1 }}
-    <label for="id_password2">Password (again)</label>
-    {{ form.password2.errors }}
-    {{ form.password2 }}
-    <button type="submit" class="btn">Register</button>
-  </form>
-  <p class="muted">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
-</div>
+<h1>Register</h1>
+<form method="post" action="{% url 'register' %}">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <p><label for="id_username">Username</label><br>{{ form.username.errors }}{{ form.username }}</p>
+  <p><label for="id_email">Email</label><br>{{ form.email.errors }}{{ form.email }}</p>
+  <p><label for="id_password1">Password</label><br>{{ form.password1.errors }}{{ form.password1 }}</p>
+  <p><label for="id_password2">Password again</label><br>{{ form.password2.errors }}{{ form.password2 }}</p>
+  <p><button type="submit">Register</button></p>
+</form>
+<p><a href="{% url 'login' %}">Log in</a></p>
 {% endblock %}
