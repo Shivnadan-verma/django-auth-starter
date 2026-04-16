@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Auth demo{% endblock %}</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; max-width: 32rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    a { color: inherit; }
+    .card { border: 1px solid #ccc; border-radius: 8px; padding: 1.25rem; }
+    label { display: block; margin-top: 0.75rem; font-weight: 600; }
+    input[type="text"], input[type="password"], input[type="email"] { width: 100%; padding: 0.5rem; margin-top: 0.25rem; box-sizing: border-box; }
+    button, .btn { margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer; }
+    .muted { opacity: 0.8; font-size: 0.9rem; }
+    .errorlist { color: #b00020; list-style: none; padding: 0; margin: 0 0 0.5rem; }
+  </style>
+</head>
+<body>
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% block content %}{% endblock %}
+</body>
+</html>
