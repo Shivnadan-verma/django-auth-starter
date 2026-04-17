@@ -1,7 +1,35 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.core.mail import send_mail
+from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from .models import UserProfile
+
+
+@receiver(post_save, sender=User)
+def ensure_user_profile(sender, instance, **kwargs):
+    """Ensure a profile exists; keep superuser and Super admin role in sync.
+
+    createsuperuser can save the User twice (non-superuser first). If we only
+    promoted role on profile_created, the second save would leave role=USER and
+    staff/superuser flags cleared by UserProfile.save().
+    """
+    if kwargs.get('raw'):
+        return
+    role_default = (
+        UserProfile.Role.SUPER_ADMIN
+        if instance.is_superuser
+        else UserProfile.Role.USER
+    )
+    profile, _ = UserProfile.objects.get_or_create(
+        user=instance,
+        defaults={'role': role_default},
+    )
+    if instance.is_superuser and profile.role != UserProfile.Role.SUPER_ADMIN:
+        profile.role = UserProfile.Role.SUPER_ADMIN
+        profile.save(update_fields=['role'])
 
 
 def _recipient_email(user):
